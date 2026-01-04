@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Face Attendance</title>
+
+<style>
+*{
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #1b2a4e, #4b0082);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main Card */
+.container{
+  background: #0b132b;
+  width: 420px;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+  text-align: center;
+}
+
+/* Heading */
+h2{
+  margin-bottom: 20px;
+  color: #ffffff; /* PURE WHITE */
+  letter-spacing: 0.5px;
+}
+
+/* Camera */
+video{
+  width: 100%;
+  height: 260px;
+  border-radius: 12px;
+  border: 3px solid #7f5af0;
+  object-fit: cover;
+  margin-bottom: 20px;
+  box-shadow: 0 0 15px rgba(127,90,240,0.5);
+}
+
+/* Button */
+button{
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #7f5af0, #5f27cd);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(127,90,240,0.6);
+}
+
+button:active{
+  transform: translateY(0);
+  box-shadow: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h2>📸 Face Attendance System</h2>
+
+  <video id="camera" autoplay></video>
+
+  <button onclick="markAttendance()">Mark Attendance</button>
+
+</div>
+
+<script>
+const video = document.getElementById("camera");
+
+navigator.mediaDevices.getUserMedia({ video:true })
+  .then(stream => video.srcObject = stream)
+  .catch(() => alert("Camera blocked — allow permission"));
+
+function markAttendance(){
+
+  const canvas = document.createElement("canvas");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d").drawImage(video, 0, 0);
+
+  const imageData = canvas.toDataURL("image/jpeg");
+
+  fetch("http://127.0.0.1:5000/attendance", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ image: imageData })
+  })
+  .then(res => res.json())
+  .then(data => alert(data.message))
+  .catch(() => alert("Backend not running. Start app.py"));
+}
+</script>
+
+</body>
+</html>
