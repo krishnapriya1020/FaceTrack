@@ -6,7 +6,8 @@
     body{
       margin:0;
       font-family: Poppins, Arial;
-      background: url("facetrackpic.png") no-repeat center center fixed;
+      background: url("{{ url_for('static', filename='images/facetrackpic.png') }}") no-repeat center center fixed;
+
       background-size: cover;
       display:flex;
       flex-direction:column;
