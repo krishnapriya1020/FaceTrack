@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teacher Login</title>
+  <style>
+    body{
+      background:#eef3ff;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      font-family:Poppins, Arial;
+    }
+    .box{
+      background:white;
+      padding:30px;
+      border-radius:18px;
+      box-shadow:0 10px 25px rgba(0,0,0,.1);
+      width:340px;
+    }
+    h2{ text-align:center; }
+
+    input{
+      width:100%;
+      padding:10px;
+      margin:10px 0;
+      border-radius:10px;
+      border:1px solid #ccc;
+    }
+    button{
+      width:100%;
+      padding:10px;
+      background:#1f45ff;
+      color:white;
+      border:none;
+      border-radius:10px;
+      font-size:16px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h2>Teacher Login</h2>
+
+    <input type="text" id="user" placeholder="Username">
+    <input type="password" id="pass" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+  </div>
+
+  <script>
+    function login(){
+      const u = document.getElementById("user").value;
+      const p = document.getElementById("pass").value;
+
+      if(u === "admin" && p === "1234"){
+        localStorage.setItem("teacher","ok");
+        window.location.href="report.html";
+      } else {
+        alert("Invalid Login");
+      }
+    }
+  </script>
+</body>
+</html>
 
